@@ -16,6 +16,17 @@ export default function useCachedResources() {
         await Font.loadAsync({
           ...Ionicons.font,
           'space-mono': require('../assets/fonts/SpaceMono-Regular.ttf'),
+          'hn-bold': require('../assets/fonts/Bold.otf'),
+          'hn-extrabold': require('../assets/fonts/ExtraBold.otf'),
+          'hn-hairline': require('../assets/fonts/Hairline.otf'),
+          'hn-hairlineitalic': require('../assets/fonts/HairlineItalic.otf'),
+          'hn-light': require('../assets/fonts/Light.otf'),
+          'hn-medium': require('../assets/fonts/Medium.otf'),
+          'hn-regular': require('../assets/fonts/Regular.otf'),
+          'hn-semibolditalic': require('../assets/fonts/SemiBoldItalic.otf'),
+          'hn-super': require('../assets/fonts/Super.otf'),
+          'hn-thin': require('../assets/fonts/Thin.otf'),
+          'hn-ultralight': require('../assets/fonts/UltraLight.otf'),
         });
       } catch (e) {
         // We might want to provide this error information to an error reporting service
