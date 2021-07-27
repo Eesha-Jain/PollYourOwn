@@ -1,0 +1,8 @@
+//Keys
+'firsttime' - first time on app or not
+
+//Functions
+import storage from "@react-native-async-storage/async-storage";
+
+await storage.setItem(KEY, newValue);
+await storage.getItem(KEY);
