@@ -1,21 +1,35 @@
 import 'react-native-gesture-handler';
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import FirstScreen from './screens/FirstScreen';
 import NavigationController from './screens/NavigationController';
-import storage from "@react-native-async-storage/async-storage";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function App() {
-  /*useEffect(() => {
+  const [first, setFirst] = useState(false);
+
+  useEffect(() => {
     const makeRequest = async () => {
-      const var = await storage.getItem('firsttime');
+      AsyncStorage.getItem('firsttime').then((item) => {
+        if (item) {
+          setFirst(true);
+        } else {
+          setFirst(false);
+        }
+      })
     }
     makeRequest();
-  }, [])*/
+  }, [])
 
-  return (
-    <NavigationController />
-  );
+  if (first) {
+    return (
+      <NavigationController />
+    );
+  } else {
+    return (
+      <FirstScreen />
+    );
+  }
 }

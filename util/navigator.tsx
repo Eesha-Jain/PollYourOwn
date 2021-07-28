@@ -12,7 +12,7 @@ export default function Navigator() {
     <NavigationContainer>
       <AppStack.Navigator screenOptions={{headerShown: false}} >
         <AppStack.Screen name="FirstScreen" component={FirstScreen} />
-        <AppStack.Screen name="NavigationController" component={NavigationController} />
+        <AppStack.Screen name="Tabs" component={NavigationController} />
       <AppStack.Navigator>
     </NavigationContainer>
   );
