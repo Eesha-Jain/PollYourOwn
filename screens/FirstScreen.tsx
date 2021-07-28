@@ -1,12 +1,16 @@
 import * as React from 'react';
-import { StyleSheet, Image, AsyncStorage, Button, Dimensions } from 'react-native';
+import { StyleSheet, Image, AsyncStorage, Button, Dimensions, TouchableHighlight } from 'react-native';
 const win = Dimensions.get('window');
 
+import * as Font from 'expo-font';
 import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
 import { useNavigation } from '@react-navigation/native';
+import { blue1, blue2, blue3, blue4, green, red, gray, white } from '../util/colors.ts';
 
 export default function FirstScreen() {
+  const navigation = useNavigation();
+
   function navigateToTabs() {
       navigation.navigate("Tabs");
   }
@@ -14,10 +18,10 @@ export default function FirstScreen() {
   return (
     <View>
       <View style={styles.container}>
-        <Text>Welcome To</Text>
+        <Text style={styles.welcome}>Welcome To</Text>
         <Image source={require('../assets/images/FirstScreenImage.png')} style={styles.topImage} />
-        <Text>Create polls anonymously for your community to answer! Get a completely random sample of data!</Text>
-        <Button title="Start Now!" onPress={() => navigateToTabs()} />
+        <Text style={styles.pitch}>Create polls anonymously for your community to answer! Get a completely random sample of data!</Text>
+        <TouchableHighlight style={styles.button} onPress={() => navigateToTabs()}><Text style={{fontSize: 20, color: white}}>Start Now!</Text></TouchableHighlight>
       </View>
     </View>
   );
@@ -25,10 +29,28 @@ export default function FirstScreen() {
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'center'
+    alignItems: 'center',
+    padding: 20
+  },
+  welcome: {
+    fontSize: 60,
+    color: blue1,
+    fontFamily: 'hn-bold'
   },
   topImage: {
-    width: win.width,
-    height: win.width * (594 / 678)
+    width: win.width * 0.95,
+    height: win.width * 0.95 * (594 / 678),
+    marginBottom: 20
+  },
+  pitch: {
+    fontSize: 25,
+    textAlign: 'center',
+    marginBottom: 20,
+    fontFamily: 'hn-ultralight'
+  },
+  button: {
+    flexDirection: 'row',
+    padding: 20,
+    backgroundColor: blue1,
   }
 });

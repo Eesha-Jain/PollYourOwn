@@ -15,7 +15,6 @@ export default function useCachedResources() {
         // Load fonts
         await Font.loadAsync({
           ...Ionicons.font,
-          'space-mono': require('../assets/fonts/SpaceMono-Regular.ttf'),
           'hn-bold': require('../assets/fonts/Bold.otf'),
           'hn-extrabold': require('../assets/fonts/ExtraBold.otf'),
           'hn-hairline': require('../assets/fonts/Hairline.otf'),
