@@ -9,6 +9,8 @@ import FirstScreen from './screens/FirstScreen';
 import NavigationController from './screens/NavigationController';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+import { NavigationContainer } from '@react-navigation/native';
+
 export default function App() {
   const [first, setFirst] = useState(false);
 
@@ -42,14 +44,18 @@ export default function App() {
   } else {
     if (first) {
       return (
-        <NavigationController />
+        <NavigationContainer>
+          <NavigationController />
+        </NavigationContainer>
       );
     } else {
       return (
-        <SafeAreaProvider>
-          <FirstScreen />
-          <StatusBar />
-        </SafeAreaProvider>
+        <NavigationContainer>
+          <SafeAreaProvider>
+            <FirstScreen />
+            <StatusBar />
+          </SafeAreaProvider>
+        </NavigationContainer>
       );
     }
   }

@@ -7,7 +7,7 @@ import useCachedResources from '../hooks/useCachedResources';
 import useColorScheme from '../hooks/useColorScheme';
 import Navigation from '../navigation';
 
-export default function NavigationController() {
+const NavigationController = ({ navigation }) => {
   const isLoadingComplete = useCachedResources();
   const colorScheme = useColorScheme();
 
@@ -22,3 +22,5 @@ export default function NavigationController() {
     );
   }
 }
+
+export default NavigationController;

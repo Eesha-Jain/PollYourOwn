@@ -1,19 +1,16 @@
-import React from 'react';
+import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import FirstScreen from '../screen/FirstScreen';
-import NavigationController from '../screen/NavigationController';
+const Stack = createStackNavigator();
 
-
-const AppStack = createStackNavigator();
-export default function Navigator() {
+const Navigator = () => {
   return (
     <NavigationContainer>
-      <AppStack.Navigator screenOptions={{headerShown: false}} >
-        <AppStack.Screen name="FirstScreen" component={FirstScreen} />
-        <AppStack.Screen name="Tabs" component={NavigationController} />
-      <AppStack.Navigator>
+      <Stack.Navigator>
+        <Stack.Screen name="FirstScreen" component={FirstScreen} />
+        <Stack.Screen name="Tabs" component={NavigationController} />
+      </Stack.Navigator>
     </NavigationContainer>
   );
-}
+};
