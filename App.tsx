@@ -4,12 +4,15 @@ import React, {useState, useEffect} from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { useFonts } from 'expo-font';
 import AppLoading from 'expo-app-loading';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import FirstScreen from './screens/FirstScreen';
 import NavigationController from './screens/NavigationController';
-import AsyncStorage from "@react-native-async-storage/async-storage";
+
 
 import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+const Stack = createStackNavigator();
 
 export default function App() {
   const [first, setFirst] = useState(false);
@@ -44,17 +47,20 @@ export default function App() {
   } else {
     if (first) {
       return (
-        <NavigationContainer>
-          <NavigationController />
+        <NavigationContainer independent={true}>
+          <Stack.Navigator initialRouteName="Tabs">
+            <Stack.Screen name="FirstScreen" options={{headerShown:false}} component={FirstScreen} />
+            <Stack.Screen name="Tabs" options={{headerShown:false}} component={NavigationController} />
+          </Stack.Navigator>
         </NavigationContainer>
       );
     } else {
       return (
-        <NavigationContainer>
-          <SafeAreaProvider>
-            <FirstScreen />
-            <StatusBar />
-          </SafeAreaProvider>
+        <NavigationContainer independent={true}>
+          <Stack.Navigator initialRouteName="FirstScreen">
+            <Stack.Screen name="FirstScreen" options={{headerShown:false}} component={FirstScreen} />
+            <Stack.Screen name="Tabs" options={{headerShown:false}} component={NavigationController} />
+          </Stack.Navigator>
         </NavigationContainer>
       );
     }

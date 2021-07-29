@@ -6,7 +6,7 @@ import { Text, View } from '../components/Themed';
 
 import sharedStyles from '../styles/SharedStyles.ts';
 
-export default function TabOneScreen() {
+export default function TabThreeScreen() {
   return (
     <View>
       <View style={sharedStyles.container}>
