@@ -15,14 +15,14 @@ import { createStackNavigator } from '@react-navigation/stack';
 const Stack = createStackNavigator();
 
 export default function App() {
-  const [first, setFirst] = useState(false);
+  const [first, setFirst] = useState(true);
 
   const makeRequest = async () => {
     AsyncStorage.getItem('firsttime').then((item) => {
       if (item) {
-        setFirst(true);
-      } else {
         setFirst(false);
+      } else {
+        setFirst(true);
       }
     })
   }
@@ -45,7 +45,7 @@ export default function App() {
   if (!fontsLoaded) {
       return <AppLoading />;
   } else {
-    if (first) {
+    if (!first) {
       return (
         <NavigationContainer independent={true}>
           <Stack.Navigator initialRouteName="Tabs">
