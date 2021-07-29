@@ -1,5 +1,19 @@
 //Keys
 'firsttime' - first time on app or not
+'polls' - arrays of polls user has created (polls are stored in the form of dictionaries, see below)
+'pollsanswered' - array of ids
+
+//How things are stored
+1. Poll Dictionary
+
+{
+  id: Number,
+  title: String,
+  choices: String [],
+  multiResponses: Boolean,
+  responseEdit: Boolean,
+  publish: Boolean
+}
 
 //Functions
 import storage from "@react-native-async-storage/async-storage";

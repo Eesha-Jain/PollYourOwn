@@ -14,6 +14,9 @@ import { blue1, blue2, blue3, blue4, green, red, gray, white } from '../util/col
 export default function FirstScreen ({ navigation: { navigate } }) {
   async function navigateTabs() {
     await storage.setItem('firsttime', 'false');
+    await storage.setItem('polls', JSON.stringify([]));
+    await storage.setItem('pollsanswered', JSON.stringify([]));
+
     navigate("Tabs")
   }
 
