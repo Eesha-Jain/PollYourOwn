@@ -6,6 +6,7 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   topImage: {
+    marginTop: 30,
     width: win.width,
     height: win.width * (128 / 750)
   }

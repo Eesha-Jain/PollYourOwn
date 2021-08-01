@@ -8,7 +8,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import FirstScreen from './screens/FirstScreen';
 import NavigationController from './screens/NavigationController';
-
+import Login from './screens/Login';
+import Signup from './screens/Signup';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -50,6 +51,7 @@ export default function App() {
         <NavigationContainer independent={true}>
           <Stack.Navigator initialRouteName="Tabs">
             <Stack.Screen name="FirstScreen" options={{headerShown:false}} component={FirstScreen} />
+            <Stack.Screen name="Tabs" options={{headerShown:false}} component={NavigationController} />
             <Stack.Screen name="Tabs" options={{headerShown:false}} component={NavigationController} />
           </Stack.Navigator>
         </NavigationContainer>

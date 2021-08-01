@@ -8,6 +8,9 @@ const win = Dimensions.get('window');
 import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
 import storage from "@react-native-async-storage/async-storage";
+//import { db } from '../util/firebaseInit.js';
+//import firebase from 'firebase';
+//import 'firebase/firestore';
 
 import sharedStyles from '../styles/SharedStyles.ts';
 import { blue1, blue2, blue3, blue4, green, red, gray, white } from '../util/colors.ts';
