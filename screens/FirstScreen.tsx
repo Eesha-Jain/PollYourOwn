@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { StyleSheet, Image, Button, Dimensions, TouchableHighlight } from 'react-native';
+import { StyleSheet, Image, Button, Dimensions, TouchableHighlight, ScrollView } from 'react-native';
 const win = Dimensions.get('window');
 
 import * as Font from 'expo-font';
@@ -21,14 +21,14 @@ export default function FirstScreen ({ navigation: { navigate } }) {
   }
 
   return (
-    <View>
+    <ScrollView>
       <View style={styles.container}>
         <Text style={styles.welcome}>Welcome To</Text>
         <Image source={require('../assets/images/FirstScreenImage.png')} style={styles.topImage} />
         <Text style={styles.pitch}>Create polls anonymously for your community to answer! Get a completely random sample of data!</Text>
         <TouchableHighlight style={styles.button} onPress={() => navigateTabs()}><Text style={{fontSize: 20, color: white}}>Start Now!</Text></TouchableHighlight>
       </View>
-    </View>
+    </ScrollView>
   );
 }
 

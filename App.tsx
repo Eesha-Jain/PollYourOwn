@@ -1,5 +1,6 @@
 import 'react-native-gesture-handler';
 import { StatusBar } from 'expo-status-bar';
+import { ScrollView } from 'react-native';
 import React, {useState, useEffect} from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { useFonts } from 'expo-font';
@@ -43,28 +44,24 @@ export default function App() {
     'hn-ultralight': require('./assets/fonts/UltraLight.otf'),
   });
 
+  var route = "Signup";
+
   if (!fontsLoaded) {
       return <AppLoading />;
   } else {
-    if (!first) {
-      return (
-        <NavigationContainer independent={true}>
-          <Stack.Navigator initialRouteName="Tabs">
-            <Stack.Screen name="FirstScreen" options={{headerShown:false}} component={FirstScreen} />
-            <Stack.Screen name="Tabs" options={{headerShown:false}} component={NavigationController} />
-            <Stack.Screen name="Tabs" options={{headerShown:false}} component={NavigationController} />
-          </Stack.Navigator>
-        </NavigationContainer>
-      );
-    } else {
-      return (
-        <NavigationContainer independent={true}>
-          <Stack.Navigator initialRouteName="FirstScreen">
-            <Stack.Screen name="FirstScreen" options={{headerShown:false}} component={FirstScreen} />
-            <Stack.Screen name="Tabs" options={{headerShown:false}} component={NavigationController} />
-          </Stack.Navigator>
-        </NavigationContainer>
-      );
+    if (first) {
+      route = "FirstScreen";
     }
   }
+
+  return (
+    <NavigationContainer independent={true}>
+      <Stack.Navigator initialRouteName={route}>
+        <Stack.Screen name="FirstScreen" options={{headerShown:false}} component={FirstScreen} />
+        <Stack.Screen name="Tabs" options={{headerShown:false}} component={NavigationController} />
+        <Stack.Screen name="Login" options={{headerShown:false}} component={Login} />
+        <Stack.Screen name="Signup" options={{headerShown:false}} component={Signup} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
 }

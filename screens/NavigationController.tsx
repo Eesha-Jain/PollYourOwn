@@ -7,7 +7,7 @@ import useCachedResources from '../hooks/useCachedResources';
 import useColorScheme from '../hooks/useColorScheme';
 import Navigation from '../navigation';
 
-function NavigationController() {
+function NavigationController({user: data}) {
   const isLoadingComplete = useCachedResources();
   const colorScheme = useColorScheme();
 
