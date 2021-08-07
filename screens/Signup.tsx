@@ -21,9 +21,9 @@ export default function Login({ navigation: { navigate } }) {
   const [password, changePassword] = React.useState("");
   const [message, changeMessage] = React.useState("");
 
-  /*if (storage.getItem('user') != 'none') {
+  if (storage.getItem('user') != 'none') {
     navigate("Tabs");
-  }*/
+  }
 
   async function onPress() {
     firebase
