@@ -1,14 +1,16 @@
 import * as React from 'react';
-import { Image, AsyncStorage, ScrollView, TextInput, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
+import { Image, AsyncStorage, ScrollView, TouchableHighlight, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
 const win = Dimensions.get('window');
 
 import EditScreenInfo from '../components/EditScreenInfo';
-import { Text, View } from '../components/Themed';
+import { Text, View, TextInput } from '../components/Themed';
 import { useNavigation } from '@react-navigation/native';
 import { withNavigation } from 'react-navigation';
+import storage from "@react-native-async-storage/async-storage";
+import Toast from 'react-native-root-toast';
 
 import { firebase } from '../util/firebaseInit.js';
-import * as sha256 from 'react-native-sha256'
+import * as sha256 from 'react-native-sha256';
 
 import sharedStyles from '../styles/SharedStyles.ts';
 import { blue1, blue2, blue3, blue4, green, red, gray, white } from '../util/colors.ts';
@@ -19,38 +21,51 @@ export default function Login({ navigation: { navigate } }) {
   const [password, changePassword] = React.useState("");
   const [message, changeMessage] = React.useState("");
 
-  async function onPress() {
-    /*var hashed = "";
-    await sha256.sha256(password).then( ( hash: any ) => { hashed = hash });
-    console.log(hashed);*/
+  /*if (storage.getItem('user') != 'none') {
+    navigate("Tabs");
+  }*/
 
+  async function onPress() {
     firebase
       .auth()
       .createUserWithEmailAndPassword(email, password)
-      .then((response) => {
-          const uid = response.user.uid
+      .then(async function (response) {
+          const uid = response.user.uid;
           const data = {
             id: uid,
             email: email,
             username: username,
-            password: password,
             firsttime: true,
             polls: [],
             pollsAnswered: []
           };
-          const usersRef = firebase.firestore().collection('users')
-          usersRef
-              .doc(uid)
-              .set(data)
-              .then(() => {
-                  changeMessage("Successfully Signed In!");
-                  //setTimeout(() => { navigate("Tabs", {user: data}) }, 2000);
-              }).catch((error) => {
-                  changeMessage("ERROR: " + error.message);
+
+          const usersRef = firebase.firestore().collection('users');
+
+          await usersRef.doc(uid).set(data).then(async function () {
+              await storage.setItem('user', JSON.stringify(data));
+              let toast = Toast.show('Successfully Signed Up', {
+                duration: Toast.durations.SHORT,
+                position: Toast.positions.BOTTOM,
+                shadow: false,
+                animation: true,
+                hideOnPress: true,
+                backgroundColor: 'white',
+                textColor: 'black',
+                opacity: 0.5
               });
+
+              navigate("Tabs");
+          }).catch((error) => {
+              changeMessage("ERROR: " + error.message);
+          });
       }).catch((error) => {
           changeMessage("ERROR: " + error.message);
       });
+  }
+
+  function onNavigate() {
+    navigate("Login");
   }
 
   return (
@@ -87,12 +102,13 @@ export default function Login({ navigation: { navigate } }) {
             <Text style={styles.buttonText}>Sign Up</Text>
          </TouchableOpacity>
 
-         <Text style={{fontSize: 20, color: 'red', marginBottom: 20, textAlign: 'center'}}>{message}</Text>
+         <Text style={{fontSize: 16, color: 'red', marginBottom: 20, textAlign: 'center'}}>{message}</Text>
 
-         <Text>Already Have an Account? <TouchableOpacity
-           onPress={() => onNavigate()}>
-             <Text style={{color: 'green'}}>Login Here</Text>
-          </TouchableOpacity></Text>
+         <Text style={{fontSize: 14}}>Already Have an Account?
+            <TouchableHighlight style={{padding: 0, margin: 0, paddingLeft: 4}} onPress={() => onNavigate()}>
+               <Text style={{color: 'green', fontSize: 14, padding: 0, margin: 0, marginBottom: -3}}>Login Here</Text>
+            </TouchableHighlight>
+          </Text>
         </View>
     </ScrollView>
   );

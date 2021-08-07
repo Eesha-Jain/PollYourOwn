@@ -17,7 +17,7 @@ export default function FirstScreen ({ navigation: { navigate } }) {
     await storage.setItem('polls', JSON.stringify([]));
     await storage.setItem('pollsanswered', JSON.stringify([]));
 
-    navigate("Tabs")
+    navigate("Signup")
   }
 
   return (
@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
     padding: 20
   },
   welcome: {
-    fontSize: 60,
+    fontSize: 50,
     color: blue1,
     fontFamily: 'hn-bold'
   },

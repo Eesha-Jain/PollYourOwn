@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "pyo",
-    "slug": "pyo",
+    "name": "PollYourOwn",
+    "slug": "PollYourOwn",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",

@@ -44,7 +44,7 @@ export default function App() {
     'hn-ultralight': require('./assets/fonts/UltraLight.otf'),
   });
 
-  var route = "Signup";
+  var route = "Login";
 
   if (!fontsLoaded) {
       return <AppLoading />;

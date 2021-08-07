@@ -36,8 +36,8 @@ https://www.freecodecamp.org/news/react-native-firebase-tutorial/ (this will be 
 # Local Storage
 
 ### Keys
-jwt: user logged in
-uid: id of user logged in
+user: user logged in (contains all their data)
+- 'none' means no user logged in
 
 ### Import Statements
 import storage from "@react-native-async-storage/async-storage";
