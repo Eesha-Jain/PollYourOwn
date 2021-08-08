@@ -34,6 +34,8 @@ export default function FirstScreen ({ navigation: { navigate } }) {
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
+    height: win.height,
     alignItems: 'center',
     padding: 20
   },

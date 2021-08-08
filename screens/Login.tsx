@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Image, AsyncStorage, ScrollView, TouchableHighlight, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
 const win = Dimensions.get('window');
-
+import {useState, useEffect} from 'react';
 import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View, TextInput } from '../components/Themed';
 import { useNavigation } from '@react-navigation/native';
@@ -20,9 +20,11 @@ export default function Login({ navigation: { navigate } }) {
   const [password, changePassword] = React.useState("");
   const [message, changeMessage] = React.useState("");
 
-  if (storage.getItem('user') != 'none') {
-    navigate("Tabs");
-  }
+  useEffect(() => {
+    if (storage.getItem('user') != 'none') {
+      navigate("Tabs");
+    }
+  });
 
   async function onPress() {
         firebase

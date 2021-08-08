@@ -2,16 +2,11 @@ import * as React from 'react';
 import { Image, AsyncStorage, StyleSheet, Dimensions, TouchableHighlight, ScrollView } from 'react-native';
 import {useState} from 'react';
 import { Entypo } from '@expo/vector-icons';
-
 const win = Dimensions.get('window');
-
 import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
 import storage from "@react-native-async-storage/async-storage";
-//import { db } from '../util/firebaseInit.js';
-//import firebase from 'firebase';
-//import 'firebase/firestore';
-
+import { firebase } from '../util/firebaseInit.js';
 import sharedStyles from '../styles/SharedStyles.ts';
 import { blue1, blue2, blue3, blue4, green, red, gray, white } from '../util/colors.ts';
 
@@ -21,22 +16,27 @@ export default function TabThreeScreen() {
   const [number, setNumber] = useState(5);
 
   const makeRequest = async () => {
-    const arrUnparsed = await storage.getItem('polls');
-    const arr = JSON.parse(arrUnparsed);
+    const userUnparsed = await storage.getItem('user');
+    const user = JSON.parse(userUnparsed);
 
-    if (arr.length < 5) {
-      setBlackBack({
-        ...StyleSheet.absoluteFillObject,
-        backgroundColor: 'rgba(0, 0, 0, 0.6)',
-        alignItems: 'center',
-        justifyContent: 'center',
-        height: win.height
+    await firebase.firestore().collection('users').where("email", "==", user["email"]).get().then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+          const entity = doc.data();
+          if (entity.polls.length < 5) {
+            setBlackBack({
+              ...StyleSheet.absoluteFillObject,
+              backgroundColor: 'rgba(0, 0, 0, 0.6)',
+              alignItems: 'center',
+              justifyContent: 'center',
+              height: win.height
+            });
+            setDisplay("none");
+            setNumber(5 - entity.polls.length);
+          } else {
+            setDisplay("flex");
+          }
       });
-      setDisplay("none");
-      setNumber(5 - arr.length);
-    } else {
-      setDisplay("flex");
-    }
+    });
   }
   makeRequest();
 
