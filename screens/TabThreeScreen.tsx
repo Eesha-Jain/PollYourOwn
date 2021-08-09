@@ -18,7 +18,7 @@ export default function TabThreeScreen() {
   const makeRequest = async () => {
     const userUnparsed = await storage.getItem('user');
     const user = JSON.parse(userUnparsed);
-
+    
     await firebase.firestore().collection('users').where("email", "==", user["email"]).get().then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
           const entity = doc.data();

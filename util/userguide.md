@@ -4,7 +4,7 @@
 Collection: user
 
 {
-  id: Integer,
+  id: String,
   email: String,
   username: String,
   password: String,
@@ -17,7 +17,7 @@ Collection: user
 Collection: polls
 
 {
-  id: Integer,
+  id: String,
   title: String,
   choices: String [],
   responses: Integer []
