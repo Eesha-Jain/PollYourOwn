@@ -39,6 +39,7 @@ export default function Login({ navigation: { navigate } }) {
             username: username,
             firsttime: true,
             polls: [],
+            skip: [],
             pollsAnswered: []
           };
 

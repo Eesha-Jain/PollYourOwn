@@ -13,17 +13,22 @@ import { blue1, blue2, blue3, blue4, green, red, gray, white } from '../util/col
 export default function TabOneScreen() {
   const [validPolls, setValidPolls] = useState([]);
   const list = [blue1, blue2, blue3, blue4, blue3, blue2, blue1];
-  
+
   useEffect(() => {
     const makeRequest = async () => {
       const userUnparsed = await storage.getItem('user');
-      const user = JSON.parse(userUnparsed);
+      let user = JSON.parse(userUnparsed);
+
+      await firebase.firestore().collection('users').doc(user.id).get().then(async function (doc) {
+        user = doc.data();
+        await storage.setItem('user', JSON.stringify(user));
+      })
 
       await firebase.firestore().collection('polls').get().then((querySnapshot) => {
         let polls = [];
         querySnapshot.forEach((doc) => {
           const entity = doc.data();
-          if (user["pollsAnswered"].indexOf(entity.id) == -1 && user["polls"].indexOf(entity.id) == -1 && entity.publish == true) {
+          if (user["pollsAnswered"].indexOf(entity.id) == -1 && user["polls"].indexOf(entity.id) == -1 && entity.publish == true && user["skip"].indexOf(entity.id) == -1) {
             polls.push(entity);
           }
         });
@@ -51,6 +56,17 @@ export default function TabOneScreen() {
     });
   }
 
+  async function skipPoll(pollId) {
+    const userUnparsed = await storage.getItem('user');
+    let user = JSON.parse(userUnparsed);
+
+    user.skip.push(pollId);
+
+    await firebase.firestore().collection('users').doc(user.id).set(user).then(async () => {
+      await storage.setItem('user', JSON.stringify(user));
+    });
+  }
+
   return (
     <View style={sharedStyles.container}>
       <Image source={require('../assets/images/Title.png')} style={sharedStyles.topImage} />
@@ -62,7 +78,7 @@ export default function TabOneScreen() {
               <View style={{flexDirection: 'row', backgroundColor: 'transparent', marginBottom: 5, justifyContent: 'space-between'}}>
                 <View style={{height: 15, width: 15, backgroundColor: red, borderRadius: 50}}></View>
                 <Text style={{fontFamily: 'hn-bold', fontSize: 18, marginLeft: 10, marginRight: 10}}>{item.title}</Text>
-                <TouchableHighlight><Text style={{color: 'rgb(103, 103, 103);'}}>X</Text></TouchableHighlight>
+                <TouchableHighlight onPress={() => {skipPoll(item.id)}}><Text style={{color: 'rgb(103, 103, 103);'}}>X</Text></TouchableHighlight>
               </View>
 
               <View style={{backgroundColor: 'transparent', flex: 1, flexDirection: 'row', display: 'flex', flexWrap: 'wrap', justifyContent: 'center'}}>

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Image, AsyncStorage, StyleSheet, Dimensions, TouchableHighlight, ScrollView } from 'react-native';
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import { Entypo } from '@expo/vector-icons';
 const win = Dimensions.get('window');
 import EditScreenInfo from '../components/EditScreenInfo';
@@ -15,30 +15,31 @@ export default function TabThreeScreen() {
   const [display, setDisplay] = useState("");
   const [number, setNumber] = useState(5);
 
-  const makeRequest = async () => {
-    const userUnparsed = await storage.getItem('user');
-    const user = JSON.parse(userUnparsed);
-    
-    await firebase.firestore().collection('users').where("email", "==", user["email"]).get().then((querySnapshot) => {
-      querySnapshot.forEach((doc) => {
-          const entity = doc.data();
-          if (entity.polls.length < 5) {
-            setBlackBack({
-              ...StyleSheet.absoluteFillObject,
-              backgroundColor: 'rgba(0, 0, 0, 0.6)',
-              alignItems: 'center',
-              justifyContent: 'center',
-              height: win.height
-            });
-            setDisplay("none");
-            setNumber(5 - entity.polls.length);
-          } else {
-            setDisplay("flex");
-          }
+  useEffect(() => {
+    const makeRequest = async () => {
+      const userUnparsed = await storage.getItem('user');
+      const user = JSON.parse(userUnparsed);
+
+      await firebase.firestore().collection('users').doc(user.id).get().then(async function (doc) {
+        const entity = doc.data();
+
+        if (entity.pollsAnswered.length < 5) {
+          setBlackBack({
+            ...StyleSheet.absoluteFillObject,
+            backgroundColor: 'rgba(0, 0, 0, 0.6)',
+            alignItems: 'center',
+            justifyContent: 'center',
+            height: win.height
+          });
+          setDisplay("none");
+          setNumber(5 - entity.pollsAnswered.length);
+        } else {
+          setDisplay("flex");
+        }
       });
-    });
-  }
-  makeRequest();
+    }
+    makeRequest();
+  }, [])
 
   return (
     <View>
