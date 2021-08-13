@@ -81,10 +81,10 @@ export default function TabOneScreen() {
                 <TouchableHighlight onPress={() => {skipPoll(item.id)}}><Text style={{color: 'rgb(103, 103, 103);'}}>X</Text></TouchableHighlight>
               </View>
 
-              <View style={{backgroundColor: 'transparent', flex: 1, flexDirection: 'row', display: 'flex', flexWrap: 'wrap', justifyContent: 'center'}}>
+              <View style={{backgroundColor: 'transparent', flex: 1, flexDirection: 'row', display: 'flex', flexWrap: 'wrap', justifyContent: 'center', width: '100%'}}>
                 {item.choices.map((choice, i) => {
                   return (
-                    <TouchableHighlight key={i} onPress={() => {answer(item.id, i)}}><View style={{backgroundColor: list[i], padding: 10, minWidth: 100, borderRadius: 10, margin: 3}}><Text style={{color: 'white', fontFamily: 'hn-ultralight', textAlign: 'center'}}>{choice.toUpperCase()}</Text></View></TouchableHighlight>
+                    <TouchableHighlight key={i} onPress={() => {answer(item.id, i)}}><View style={{backgroundColor: list[i], padding: 10, paddingLeft: 15, paddingRight: 15, minWidth: 50, borderRadius: 10, margin: 3}}><Text style={{color: 'white', fontFamily: 'hn-ultralight', textAlign: 'center'}}>{choice.toUpperCase()}</Text></View></TouchableHighlight>
                   );
                 })}
               </View>
