@@ -14,6 +14,7 @@
   "dependencies": {
     "@expo/vector-icons": "^12.0.5",
     "@react-native-async-storage/async-storage": "~1.15.0",
+    "@react-native-community/art": "^1.2.0",
     "@react-native-community/masked-view": "0.1.10",
     "@react-navigation/bottom-tabs": "5.11.2",
     "@react-navigation/native": "^6.0.0",
@@ -36,16 +37,19 @@
     "qs": "6.0.4",
     "react": "^17.0.2",
     "react-dom": "16.13.1",
-    "react-native": "0.64.1",
+    "react-native": "^0.63.2",
+    "react-native-chart-kit": "^6.11.0",
     "react-native-dotenv": "^3.1.1",
     "react-native-gesture-handler": "~1.10.2",
     "react-native-hash": "^1.3.1",
     "react-native-keyboard-aware-scroll-view": "^0.9.4",
+    "react-native-pie": "^1.1.2",
     "react-native-reanimated": "~2.2.0",
     "react-native-root-toast": "^3.2.1",
     "react-native-safe-area-context": "3.2.0",
     "react-native-screens": "~3.4.0",
     "react-native-sha256": "^1.4.7",
+    "react-native-svg": "12.1.1",
     "react-native-toast-message": "^1.4.9",
     "react-native-web": "^0.17.1",
     "react-navigation": "^4.4.4",
@@ -57,7 +61,7 @@
     "@types/react-native": "~0.63.2",
     "jest-expo": "~41.0.0-beta.0",
     "typescript": "~4.0.0",
-    "xmldom": ">=0.7.0"
+    "xmldom": "^0.6.0"
   },
   "private": true
 }
