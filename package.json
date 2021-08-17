@@ -50,6 +50,7 @@
     "react-native-screens": "~3.4.0",
     "react-native-sha256": "^1.4.7",
     "react-native-svg": "12.1.1",
+    "react-native-table-component": "^1.2.1",
     "react-native-toast-message": "^1.4.9",
     "react-native-web": "~0.13.12",
     "react-navigation": "^4.4.4",

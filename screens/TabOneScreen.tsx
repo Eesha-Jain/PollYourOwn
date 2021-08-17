@@ -1,4 +1,4 @@
-import * as React from 'react';
+ import * as React from 'react';
 import { Image, AsyncStorage, StyleSheet, Dimensions, TouchableHighlight, ScrollView } from 'react-native';
 import {useState, useEffect} from 'react';
 import { Entypo } from '@expo/vector-icons';
@@ -77,8 +77,8 @@ export default function TabOneScreen() {
             <View key={item.id} style={sharedStyles.poll}>
               <View style={{flexDirection: 'row', backgroundColor: 'transparent', marginBottom: 5, justifyContent: 'space-between'}}>
                 <View style={{height: 15, width: 15, backgroundColor: red, borderRadius: 50}}></View>
-                <Text style={{fontFamily: 'hn-bold', fontSize: 18, marginLeft: 10, marginRight: 10}}>{item.title}</Text>
-                <TouchableHighlight onPress={() => {skipPoll(item.id)}}><Text style={{color: 'rgb(103, 103, 103);'}}>X</Text></TouchableHighlight>
+                <Text style={{fontFamily: 'hn-bold', fontSize: 18, marginLeft: 0, marginRight: 5}}>{item.title}</Text>
+                <TouchableHighlight onPress={() => {skipPoll(item.id)}}><Text style={{color: 'rgb(103, 103, 103);', position: 'absolute', top: 0, right: 0}}>X</Text></TouchableHighlight>
               </View>
 
               <View style={{backgroundColor: 'transparent', flex: 1, flexDirection: 'row', display: 'flex', flexWrap: 'wrap', justifyContent: 'center', width: '100%'}}>
