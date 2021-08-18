@@ -26,9 +26,9 @@ function PollAnswered(props) {
       var arr = [];
       for (var i = 0; i < dic[item.title][0].length; i++) {
         var percent = dic[item.title][0][i];
-        arr.push([<Text style={{fontSize: 17, color: list[i]}}>{item.choices[i]} ({percent}%)</Text>, <View style={{marginLeft: 10,  borderRadius: 50, width: (percent * 0.6) + '%', backgroundColor: list[i]}}></View>]);
+        arr.push([<Text style={{fontSize: 17, color: list[i]}}>{item.choices[i]} ({percent}%)</Text>, <View style={{borderRadius: 50, width: percent + '%', backgroundColor: list[i]}}><Text style={{color: list[i]}}>.</Text></View>]);
       }
-      
+
       return (
         <View key={item.id} style={[sharedStyles.poll, {width: '100%'}]}>
           <View style={{flexDirection: 'row', backgroundColor: 'transparent', marginBottom: 5, justifyContent: 'space-between'}}>
@@ -54,17 +54,11 @@ function PollAnswered(props) {
             />
             </View>
             <View style={{backgroundColor: 'transparent', width: '75%'}}>
-              {dic[item.title][0].map((percent, i) => {
-                var arr = [];
-
-                return (
-                  <View key={i} style={{backgroundColor: 'transparent', flexDirection: 'row', borderWidth: 1, width: '100%'}}>
-                    <Table borderStyle={{borderWidth: 0, borderColor: 'gray'}} style={{width: '100%', minHeight: 20}}>
-                      <Rows data={arr} flexArr={[1, 1]}/>
-                    </Table>
-                  </View>
-                );
-              })}
+              <View key={i} style={{backgroundColor: 'transparent', flexDirection: 'row', width: '100%'}}>
+                <Table borderStyle={{borderWidth: 0, borderColor: 'gray'}} style={{width: '100%', minHeight: 20}}>
+                  <Rows data={arr} flexArr={[1, 1]}/>
+                </Table>
+              </View>
             </View>
           </View>
         </View>
