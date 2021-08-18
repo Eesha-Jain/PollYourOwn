@@ -118,7 +118,7 @@ export default function TabTwoScreen() {
     }
 
     makeRequest();
-  }, []);
+  }, [polls]);
 
   return (
     <View style={[sharedStyles.container, {padding: 0}]}>
