@@ -20,7 +20,18 @@ const styles = StyleSheet.create({
     width: win.width - 40,
     padding: 10,
     marginBottom: 10
-  }
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: gray,
+    backgroundColor: white,
+    borderRadius: 10,
+    height: 40,
+    padding: 10,
+    fontFamily: 'hn-bold',
+    marginBottom: 20,
+    textAlign: 'center'
+  },
 });
 
 export default styles;

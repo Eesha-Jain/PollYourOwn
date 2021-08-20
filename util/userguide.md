@@ -21,7 +21,7 @@ Collection: polls
   id: String,
   title: String,
   choices: String [],
-  responses: Integer []
+  responses: Integer [],
   multiResponses: Boolean,
   responseEdit: Boolean,
   publish: Boolean
