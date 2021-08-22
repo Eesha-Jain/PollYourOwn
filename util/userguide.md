@@ -38,7 +38,9 @@ https://www.freecodecamp.org/news/react-native-firebase-tutorial/ (this will be 
 
 ### Keys
 user: user logged in (contains all their data)
-- 'none' means no user logged in
+- {empty: true} means no user logged in
+
+firsttime: whether it is the user's first time using the app
 
 ### Import Statements
 import storage from "@react-native-async-storage/async-storage";

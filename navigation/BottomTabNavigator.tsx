@@ -13,7 +13,8 @@ import useColorScheme from '../hooks/useColorScheme';
 import TabOneScreen from '../screens/TabOneScreen';
 import TabTwoScreen from '../screens/TabTwoScreen';
 import TabThreeScreen from '../screens/TabThreeScreen';
-import { BottomTabParamList, TabOneParamList, TabTwoParamList, TabThreeParamList } from '../types';
+import TabFourScreen from '../screens/Settings';
+import { BottomTabParamList, TabOneParamList, TabTwoParamList, TabThreeParamList, TabFourParamList } from '../types';
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -43,6 +44,14 @@ export default function BottomTabNavigator() {
         component={TabThreeNavigator}
         options={{
           tabBarIcon: ({ color }) => <MaterialCommunityIcons size={30} style={{ marginBottom: -3 }} name="pencil-box" color={color} />,
+        }}
+      />
+
+      <BottomTab.Screen
+        name="Settings"
+        component={TabFourNavigator}
+        options={{
+          tabBarIcon: ({ color }) => <Ionicons size={30} style={{ marginBottom: -3 }} name="md-settings-sharp" color={color} />,
         }}
       />
     </BottomTab.Navigator>
@@ -96,5 +105,19 @@ function TabThreeNavigator() {
         options={{ headerTitle: 'Make', headerShown:false }}
       />
     </TabThreeStack.Navigator>
+  );
+}
+
+const TabFourStack = createStackNavigator<TabFourParamList>();
+
+function TabFourNavigator() {
+  return (
+    <TabFourStack.Navigator>
+      <TabFourStack.Screen
+        name="Four"
+        component={TabFourScreen}
+        options={{ headerTitle: 'Make', headerShown:false }}
+      />
+    </TabFourStack.Navigator>
   );
 }

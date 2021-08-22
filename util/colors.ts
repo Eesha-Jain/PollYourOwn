@@ -10,4 +10,6 @@ var gray = 'rgb(204, 204, 204)';
 var darkgray = 'rgb(128, 128, 128)';
 var white = 'rgb(255, 255, 255)';
 
-export { blue1, blue2, blue3, blue4, green, red, gray, white, darkgray };
+const list = [blue1, blue2, blue3, blue4, blue3, blue2, blue1];
+
+export { blue1, blue2, blue3, blue4, green, red, gray, white, darkgray, list};

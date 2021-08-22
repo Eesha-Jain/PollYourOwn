@@ -5,7 +5,7 @@ import React, {useState, useEffect} from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { useFonts } from 'expo-font';
 import AppLoading from 'expo-app-loading';
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import storage from "@react-native-async-storage/async-storage";
 
 import FirstScreen from './screens/FirstScreen';
 import NavigationController from './screens/NavigationController';
@@ -20,13 +20,9 @@ export default function App() {
   const [first, setFirst] = useState(true);
 
   const makeRequest = async () => {
-    AsyncStorage.getItem('firsttime').then((item) => {
-      if (item) {
-        setFirst(false);
-      } else {
-        setFirst(true);
-      }
-    })
+    var item = await storage.getItem('firsttime');
+    if (item) { setFirst(false); }
+    else { setFirst(true); }
   }
   makeRequest();
 

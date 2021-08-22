@@ -53,7 +53,7 @@ export default function CreatePoll({ navigation: { navigate } }) {
     setChoices(newChoices);
   }
 
-  function publishPoll() {
+  async function publishPoll() {
     if (name == "") {
       setMessage("Please type in a title");
     } else {
@@ -67,9 +67,7 @@ export default function CreatePoll({ navigation: { navigate } }) {
       }
 
       const pollsRef = firebase.firestore().collection('polls');
-      var id = db.collection("polls").document().getId();
       var data = {
-        id: id,
         title: name,
         choices: choices,
         responses: responses,
@@ -78,8 +76,16 @@ export default function CreatePoll({ navigation: { navigate } }) {
         publish: true
       };
 
-      await pollsRef.doc(id).set(data).then(async function () {
-          await storage.setItem('user', JSON.stringify(data));
+      var doc = await pollsRef.add(data);
+      data["id"] = doc.id;
+      await pollsRef.doc(doc.id).set(data).then(async function () {
+          var userunparsed = await storage.getItem('user');
+          var user = JSON.parse(userunparsed);
+          user.polls.push(data.id);
+
+          await firebase.firestore().collection('users').doc(user.id).set(user);
+          await storage.setItem('user', JSON.stringify(user));
+
           let toast = Toast.show('Successfully Created Poll', {
             duration: Toast.durations.SHORT,
             position: Toast.positions.BOTTOM,
@@ -93,7 +99,7 @@ export default function CreatePoll({ navigation: { navigate } }) {
 
           navigate("Back");
       }).catch((error) => {
-          changeMessage("ERROR: " + error.message);
+          setMessage("ERROR: " + error.message);
       });
     }
   }

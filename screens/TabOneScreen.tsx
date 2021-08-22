@@ -8,11 +8,10 @@ import { Text, View } from '../components/Themed';
 import storage from "@react-native-async-storage/async-storage";
 import { firebase } from '../util/firebaseInit.js';
 import sharedStyles from '../styles/SharedStyles.ts';
-import { blue1, blue2, blue3, blue4, green, red, gray, white } from '../util/colors.ts';
+import { blue1, blue2, blue3, blue4, green, red, gray, white, list } from '../util/colors.ts';
 
 export default function TabOneScreen() {
   const [validPolls, setValidPolls] = useState([]);
-  const list = [blue1, blue2, blue3, blue4, blue3, blue2, blue1];
 
   useEffect(() => {
     const makeRequest = async () => {
