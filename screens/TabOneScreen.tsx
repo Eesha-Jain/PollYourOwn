@@ -1,6 +1,6 @@
  import * as React from 'react';
 import { Image, AsyncStorage, StyleSheet, Dimensions, TouchableHighlight, ScrollView } from 'react-native';
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useRef} from 'react';
 import { Entypo } from '@expo/vector-icons';
 const win = Dimensions.get('window');
 import EditScreenInfo from '../components/EditScreenInfo';
@@ -10,8 +10,15 @@ import { firebase } from '../util/firebaseInit.js';
 import sharedStyles from '../styles/SharedStyles.ts';
 import { blue1, blue2, blue3, blue4, green, red, gray, white, list } from '../util/colors.ts';
 
-export default function TabOneScreen() {
+export default function TabOneScreen({ navigation: { navigate } }) {
   const [validPolls, setValidPolls] = useState([]);
+  const mountedRef = useRef(false);
+  useEffect(() => {
+    mountedRef.current = true
+    return () => {
+      mountedRef.current = false
+    }
+  }, [])
 
   useEffect(() => {
     const makeRequest = async () => {
@@ -36,7 +43,7 @@ export default function TabOneScreen() {
         });
       } catch (e) { navigate("Login"); }
     }
-    makeRequest();
+    if (mountedRef.current) {makeRequest();}
   });
 
   async function answer(pollId, choiceIndex) {

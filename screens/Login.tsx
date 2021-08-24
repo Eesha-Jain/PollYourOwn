@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Image, ScrollView, TouchableHighlight, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
 const win = Dimensions.get('window');
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useRef} from 'react';
 import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View, TextInput } from '../components/Themed';
 import { useNavigation } from '@react-navigation/native';
@@ -24,8 +24,7 @@ export default function Login({ navigation: { navigate } }) {
     const makeRequest = async () => {
       try {
         var data = await storage.getItem('user');
-        var parsed = JSON.parse(data);
-        if (parsed != null) { navigate("Tabs"); }
+        if (data != null) { navigate("Tabs"); }
       } catch (e) {}
     }
     makeRequest();
