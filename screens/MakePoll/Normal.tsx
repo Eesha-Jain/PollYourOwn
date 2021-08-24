@@ -11,14 +11,15 @@ import sharedStyles from '../../styles/SharedStyles.ts';
 import { blue1, blue2, blue3, blue4, green, red, gray, white, darkgray, list } from '../../util/colors.ts';
 import { PieChart } from 'react-native-chart-kit';
 import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
-import {PollAnsweredNormal} from '../../util/PollAnswered';
+import {PollAnsweredNormal, PollAnswered} from '../../util/PollAnswered';
 
 export default function TabThreeScreen({ navigation: { navigate } }) {
+  let [polls, setPolls] = useState([]);
+  let [dic, setDic] = useState({});
   const [blackBack, setBlackBack] = useState({});
   const [display, setDisplay] = useState("");
   const [number, setNumber] = useState(5);
-  let [polls, setPolls] = useState([]);
-  let [dict, setDict] = useState({});
+  let [scrollView, setScrollView] = useState([<View key={0}></View>]);
 
   function navigation() {
     navigate("Create Poll");
@@ -49,24 +50,21 @@ export default function TabThreeScreen({ navigation: { navigate } }) {
           setDisplay("flex");
         } else {
           setDisplay("none");
-          var dic = {};
-          var pollArr = [];
+          let pollsAnswered = entity.polls;
+          polls = [];
+          dic = {};
 
-          for (var i = 0; i < entity.polls.length; i++) {
+          for (var i = 0; i < pollsAnswered.length; i++) {
             let pollsTemp = [];
-            await firebase.firestore().collection('polls').where("id", "==", entity.polls[i]).get().then((querySnapshot) => {
+            await firebase.firestore().collection('polls').where("id", "==", pollsAnswered[i]).get().then((querySnapshot) => {
               querySnapshot.forEach((poll) => {
                 var item = poll.data();
-                pollArr.push(item);
+                polls.push(item);
 
                 let arr = [];
                 var count = 0;
                 for (var i = 0; i < item.choices.length; i++) { count += item.responses[i]; }
-                for (var i = 0; i < item.choices.length; i++) {
-                  try {arr[i] = ((item.responses[i] * 100) / (count)).toFixed(0); }
-                  catch (e) { arr[i] = 0; };
-                  if (isNaN(arr[i])) arr[i] = 0;
-                }
+                for (var i = 0; i < item.choices.length; i++) { arr[i] = ((item.responses[i] * 100) / (count)).toFixed(0); }
 
                 let pollData = [];
                 for (var i = 0; i < item.choices.length; i++) {
@@ -85,8 +83,7 @@ export default function TabThreeScreen({ navigation: { navigate } }) {
             });
           }
 
-          setDict(dic);
-          setPolls(pollArr);
+          setScrollView([<PollAnswered key={0} polls={polls} dic={dic} />]);
         }
       });
     }
@@ -104,9 +101,9 @@ export default function TabThreeScreen({ navigation: { navigate } }) {
           </View>
 
           <TouchableOpacity onPress={() => {navigation()}} style={[styles.addButton, {marginTop: 20, marginBottom: 10}]}><Text style={styles.addButtonText}>Create Poll</Text></TouchableOpacity>
-
-          <PollAnsweredNormal polls={polls} dic={dict} />
         </View>
+
+        {scrollView}
       </ScrollView>
 
       <View style={blackBack}>
