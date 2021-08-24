@@ -15,24 +15,26 @@ export default function TabOneScreen() {
 
   useEffect(() => {
     const makeRequest = async () => {
-      const userUnparsed = await storage.getItem('user');
-      let user = JSON.parse(userUnparsed);
+      try {
+        const userUnparsed = await storage.getItem('user');
+        let user = JSON.parse(userUnparsed);
 
-      await firebase.firestore().collection('users').doc(user.id).get().then(async function (doc) {
-        user = doc.data();
-        await storage.setItem('user', JSON.stringify(user));
-      })
+        await firebase.firestore().collection('users').doc(user.id).get().then(async function (doc) {
+          user = doc.data();
+          await storage.setItem('user', JSON.stringify(user));
+        })
 
-      await firebase.firestore().collection('polls').get().then((querySnapshot) => {
-        let polls = [];
-        querySnapshot.forEach((doc) => {
-          const entity = doc.data();
-          if (user["pollsAnswered"].indexOf(entity.id) == -1 && user["polls"].indexOf(entity.id) == -1 && entity.publish == true && user["skip"].indexOf(entity.id) == -1) {
-            polls.push(entity);
-          }
+        await firebase.firestore().collection('polls').get().then((querySnapshot) => {
+          let polls = [];
+          querySnapshot.forEach((doc) => {
+            const entity = doc.data();
+            if (user["pollsAnswered"].indexOf(entity.id) == -1 && user["polls"].indexOf(entity.id) == -1 && entity.publish == true && user["skip"].indexOf(entity.id) == -1) {
+              polls.push(entity);
+            }
+          });
+          setValidPolls(polls);
         });
-        setValidPolls(polls);
-      });
+      } catch (e) { navigate("Login"); }
     }
     makeRequest();
   });
