@@ -9,8 +9,8 @@ import storage from "@react-native-async-storage/async-storage";
 
 import FirstScreen from './screens/FirstScreen';
 import NavigationController from './screens/NavigationController';
-import Login from './screens/Login';
-import Signup from './screens/Signup';
+import Login from './screens/Accounts/Login';
+import Signup from './screens/Accounts/Signup';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';

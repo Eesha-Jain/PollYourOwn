@@ -1,19 +1,19 @@
 import * as React from 'react';
 import { Image, ScrollView, TouchableHighlight, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
 const win = Dimensions.get('window');
-import {useState, useEffect} from 'react';
-import EditScreenInfo from '../components/EditScreenInfo';
-import { Text, View, TextInput } from '../components/Themed';
+import {useState, useEffect, useRef} from 'react';
+import EditScreenInfo from '../../components/EditScreenInfo';
+import { Text, View, TextInput } from '../../components/Themed';
 import { useNavigation } from '@react-navigation/native';
 import { withNavigation } from 'react-navigation';
 import storage from "@react-native-async-storage/async-storage";
 import Toast from 'react-native-root-toast';
 
-import { firebase } from '../util/firebaseInit.js';
+import { firebase } from '../../util/firebaseInit.js';
 import * as sha256 from 'react-native-sha256';
 
-import sharedStyles from '../styles/SharedStyles.ts';
-import { blue1, blue2, blue3, blue4, green, red, gray, white } from '../util/colors.ts';
+import sharedStyles from '../../styles/SharedStyles.ts';
+import { blue1, blue2, blue3, blue4, green, red, gray, white } from '../../util/colors.ts';
 
 export default function Login({ navigation: { navigate } }) {
   const [email, changeEmail] = React.useState("");
@@ -79,7 +79,7 @@ export default function Login({ navigation: { navigate } }) {
   return (
     <ScrollView>
       <View style={sharedStyles.container}>
-        <Image source={require('../assets/images/icon.png')} style={styles.image} />
+        <Image source={require('../../assets/images/icon.png')} style={styles.image} />
 
         <Text style={styles.title}>SIGN-UP</Text>
 
