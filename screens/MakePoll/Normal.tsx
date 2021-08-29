@@ -19,7 +19,7 @@ export default function TabThreeScreen({ navigation: { navigate } }) {
   const [blackBack, setBlackBack] = useState({});
   const [display, setDisplay] = useState("");
   const [number, setNumber] = useState(5);
-  let [scrollView, setScrollView] = useState([<View key={0}></View>]);
+  const [loaded, setLoaded] = useState(false);
 
   function navigation() {
     navigate("Create Poll");
@@ -83,12 +83,12 @@ export default function TabThreeScreen({ navigation: { navigate } }) {
             });
           }
 
-          setScrollView([<PollAnswered key={0} polls={polls} dic={dic} />]);
+          if (!loaded) {setLoaded(true);}
         }
       });
     }
     makeRequest();
-  }, [])
+  }, [loaded]);
 
   return (
     <View>
@@ -103,7 +103,7 @@ export default function TabThreeScreen({ navigation: { navigate } }) {
           <TouchableOpacity onPress={() => {navigation()}} style={[styles.addButton, {marginTop: 20, marginBottom: 10}]}><Text style={styles.addButtonText}>Create Poll</Text></TouchableOpacity>
         </View>
 
-        {scrollView}
+        <PollAnsweredNormal key={0} polls={polls} dic={dic} />
       </ScrollView>
 
       <View style={blackBack}>
