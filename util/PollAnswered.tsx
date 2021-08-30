@@ -31,51 +31,43 @@ export function PollAnsweredNormal(props) {
       }
 
       return (
-        <Text key={item.id}>hi</Text>
+        <View key={item.id} style={[sharedStyles.poll]}>
+          <View style={{flexDirection: 'row', backgroundColor: 'transparent', marginBottom: 5, justifyContent: 'space-between'}}>
+            <View style={{height: 15, width: 15, backgroundColor: green, borderRadius: 50}}></View>
+            <Text style={{fontFamily: 'hn-bold', fontSize: 18, marginLeft: 10, marginRight: 10}}>{item.title}</Text>
+            <View></View>
+          </View>
+
+          <View style={{backgroundColor: 'transparent', flex: 1, flexDirection: 'row', flexWrap: 'wrap', alignItems: 'flex-start'}}>
+            <View style={{marginRight: '3%', backgroundColor: 'transparent', width: '20%'}}>
+            <PieChart data={dic[item.title][1]} width={win.width * 0.20} height={win.width * 0.20} hasLegend={false}
+              chartConfig={{
+                backgroundColor: '#e26a00',
+                backgroundGradientFrom: '#fb8c00',
+                backgroundGradientTo: '#ffa726',
+                decimalPlaces: 2,
+                color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+                style: {
+                  borderRadius: 16,
+                  margin: 0
+                }
+              }} accessor="population" backgroundColor="transparent" paddingLeft="12"
+            />
+            </View>
+            <View style={{backgroundColor: 'transparent', width: '75%'}}>
+              <View key={i} style={{backgroundColor: 'transparent', flexDirection: 'row', width: '100%'}}>
+                <Table borderStyle={{borderWidth: 0, borderColor: 'gray'}} style={{width: '100%', minHeight: 20}}>
+                  <Rows data={arr} flexArr={[1, 1]}/>
+                </Table>
+              </View>
+            </View>
+          </View>
+        </View>
       );
     })}
     </View>
   );
 }
-
-/*
-<View key={item.id} style={[sharedStyles.poll, {width: '100%'}]}>
-  <View style={{flexDirection: 'row', backgroundColor: 'transparent', marginBottom: 5, justifyContent: 'space-between'}}>
-    <View style={{height: 15, width: 15, backgroundColor: green, borderRadius: 50}}></View>
-    <Text style={{fontFamily: 'hn-bold', fontSize: 18, marginLeft: 10, marginRight: 10}}>{item.title}</Text>
-    <View></View>
-  </View>
-
-  <View style={{display: display == 'flex' ? 'none' : 'flex', backgroundColor: 'transparent'}}>
-    <Text style={{fontFamily: 'hn-ultralight'}}>No responses</Text>
-  </View>
-
-  <View style={{backgroundColor: 'transparent', flex: 1, flexDirection: 'row', flexWrap: 'wrap', alignItems: 'flex-start', display: display}}>
-    <View style={{marginRight: '3%', backgroundColor: 'transparent', width: '20%'}}>
-    <PieChart data={dic[item.title][1]} width={win.width * 0.20} height={win.width * 0.20} hasLegend={false}
-      chartConfig={{
-        backgroundColor: '#e26a00',
-        backgroundGradientFrom: '#fb8c00',
-        backgroundGradientTo: '#ffa726',
-        decimalPlaces: 2,
-        color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-        style: {
-          borderRadius: 16,
-          margin: 0
-        }
-      }} accessor="population" backgroundColor="transparent" paddingLeft="12"
-    />
-    </View>
-    <View style={{backgroundColor: 'transparent', width: '75%'}}>
-      <View key={i} style={{backgroundColor: 'transparent', flexDirection: 'row', width: '100%'}}>
-        <Table borderStyle={{borderWidth: 0, borderColor: 'gray'}} style={{width: '100%', minHeight: 20}}>
-          <Rows data={arr} flexArr={[1, 1]}/>
-        </Table>
-      </View>
-    </View>
-  </View>
-</View>
-*/
 
 export function PollAnswered(props) {
   const polls = props.polls;

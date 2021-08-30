@@ -20,6 +20,7 @@ export default function TabThreeScreen({ navigation: { navigate } }) {
   const [display, setDisplay] = useState("");
   const [number, setNumber] = useState(5);
   const [loaded, setLoaded] = useState(false);
+  const [normal, setNormal] = useState(<View></View>);
 
   function navigation() {
     navigate("Create Poll");
@@ -44,6 +45,9 @@ export default function TabThreeScreen({ navigation: { navigate } }) {
           setNumber(5 - entity.pollsAnswered.length);
         } else {
           setDisplay("flex");
+          setBlackBack({
+            display: "none"
+          })
         }
 
         if (entity.polls.length == 0) {
@@ -51,11 +55,10 @@ export default function TabThreeScreen({ navigation: { navigate } }) {
         } else {
           setDisplay("none");
           let pollsAnswered = entity.polls;
-          polls = [];
-          dic = {};
+          setPolls([]);
+          setDic({});
 
           for (var i = 0; i < pollsAnswered.length; i++) {
-            let pollsTemp = [];
             await firebase.firestore().collection('polls').where("id", "==", pollsAnswered[i]).get().then((querySnapshot) => {
               querySnapshot.forEach((poll) => {
                 var item = poll.data();
@@ -83,28 +86,33 @@ export default function TabThreeScreen({ navigation: { navigate } }) {
             });
           }
 
-          if (!loaded) {setLoaded(true);}
+          if (!loaded) {setLoaded(true); setNormal(<PollAnsweredNormal key={0} polls={polls} dic={dic} />);}
         }
       });
     }
     makeRequest();
-  }, [loaded]);
+  }, [loaded, normal]);
 
   return (
     <View>
       <Image source={require('../../assets/images/Title.png')} style={sharedStyles.topImage} />
-      <ScrollView>
+
+      <View>
         <View style={[sharedStyles.container, {alignItems: 'center'}]}>
           <View style={[styles.none, {display: display}]}>
             <Entypo name="emoji-sad" size={300} color="rgb(200, 200, 200)" />
             <Text style={{color: 'gray', fontSize: 20}}>You haven't created any polls yet</Text>
           </View>
-
-          <TouchableOpacity onPress={() => {navigation()}} style={[styles.addButton, {marginTop: 20, marginBottom: 10}]}><Text style={styles.addButtonText}>Create Poll</Text></TouchableOpacity>
         </View>
 
-        <PollAnsweredNormal key={0} polls={polls} dic={dic} />
-      </ScrollView>
+        <ScrollView style={{padding: 5}}>
+          <View style={{alignItems: 'center'}}>
+            <TouchableOpacity onPress={() => {navigation()}} style={[styles.addButton, {marginTop: 20, marginBottom: 10}]}><Text style={styles.addButtonText}>Create Poll</Text></TouchableOpacity>
+          </View>
+
+          {normal}
+        </ScrollView>
+      </View>
 
       <View style={blackBack}>
         <Text style={styles.pollsCheckText}>Answer {number} more polls to unlock this feature</Text>
