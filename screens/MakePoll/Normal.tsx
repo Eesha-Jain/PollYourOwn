@@ -17,7 +17,7 @@ export default function TabThreeScreen({ navigation: { navigate } }) {
   let [polls, setPolls] = useState([]);
   let [dic, setDic] = useState({});
   const [blackBack, setBlackBack] = useState({});
-  const [display, setDisplay] = useState("");
+  const [display, setDisplay] = useState("none");
   const [number, setNumber] = useState(5);
   const [loaded, setLoaded] = useState(false);
   const [normal, setNormal] = useState(<View></View>);
