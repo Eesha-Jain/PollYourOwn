@@ -8,6 +8,8 @@ This brings truly random data right to your phone in just a few simple clicks!
 
 Why wait? Get started today!
 
+First version of PollYourOwn! https://expo.dev/@eeja/PollYourOwn
+
 # Notes
 - This app is currently under development
 - This app is not published on Google Play or on the App Store
