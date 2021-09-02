@@ -11,12 +11,13 @@ import sharedStyles from '../../styles/SharedStyles.ts';
 import { blue1, blue2, blue3, blue4, green, red, gray, white, darkgray } from '../../util/colors.ts';
 import Toast from 'react-native-root-toast';
 
-export default function CreatePoll({ navigation: { navigate } }) {
-  const [name, setName] = useState("");
-  const [multi, setMulti] = useState(false);
-  const [choices, setChoices] = useState([""]);
-  const [message, setMessage] = useState("");
-  const [editing, setEditing] = useState(false);
+export default function CreatePoll({ navigation: { navigate }, route }) {
+  const { names, multis, choicess, messages, editings } = route.params;
+  const [name, setName] = useState(names);
+  const [multi, setMulti] = useState(multis);
+  const [choices, setChoices] = useState(choicess);
+  const [message, setMessage] = useState(messages);
+  const [editing, setEditing] = useState(editings);
 
   function choicesCustomSet(i, val) {
     var dup = [...choices]
@@ -76,7 +77,7 @@ export default function CreatePoll({ navigation: { navigate } }) {
         publish: true
       };
 
-      var doc = await pollsRef.add(data);
+      var doc = await pollsRef.set(data);
       data["id"] = doc.id;
       await pollsRef.doc(doc.id).set(data).then(async function () {
           var userunparsed = await storage.getItem('user');

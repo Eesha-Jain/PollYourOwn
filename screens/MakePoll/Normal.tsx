@@ -13,7 +13,7 @@ import { PieChart } from 'react-native-chart-kit';
 import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
 import {PollAnsweredNormal, PollAnswered} from '../../util/PollAnswered';
 
-export default function TabThreeScreen({ navigation: { navigate } }) {
+export default function TabThreeScreen({ navigation: { navigate }}) {
   let [polls, setPolls] = useState([]);
   let [dic, setDic] = useState({});
   const [blackBack, setBlackBack] = useState({});
@@ -23,7 +23,13 @@ export default function TabThreeScreen({ navigation: { navigate } }) {
   const [normal, setNormal] = useState(<View></View>);
 
   function navigation() {
-    navigate("Create Poll");
+    navigate("Create Poll", {
+      names: "",
+      multis: false,
+      choicess: [""],
+      messages: "",
+      editings: false
+    });
   }
 
   useEffect(() => {
@@ -86,7 +92,7 @@ export default function TabThreeScreen({ navigation: { navigate } }) {
             });
           }
 
-          if (!loaded) {setLoaded(true); setNormal(<PollAnsweredNormal key={0} polls={polls} dic={dic} />);}
+          if (!loaded) {setLoaded(true); setNormal(<PollAnsweredNormal key={0} polls={polls} dic={dic} navigate={navigate} />);}
         }
       });
     }

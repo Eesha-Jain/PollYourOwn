@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Image, AsyncStorage, StyleSheet, Dimensions, TouchableHighlight, ScrollView } from 'react-native';
+import { Image, AsyncStorage, StyleSheet, Dimensions, TouchableHighlight, TouchableOpacity, ScrollView } from 'react-native';
 import { useState, useEffect } from 'react';
 import { Entypo } from '@expo/vector-icons';
 const win = Dimensions.get('window');
@@ -15,6 +15,23 @@ import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-ta
 export function PollAnsweredNormal(props) {
   const polls = props.polls;
   const dic = props.dic;
+
+  async function editPoll(id) {
+    await firebase.firestore().collection('polls').get().then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        const entity = doc.data();
+        if (entity.id == id) {
+          props.navigate("Create Poll", {
+            names: entity.title,
+            multis: entity.multiResponses,
+            choicess: entity.choices,
+            messages: "",
+            editings: entity.responseEdit
+          });
+        }
+      });
+    });
+  }
 
   return (
     <View style={{width: win.width, padding: 20}}>
@@ -35,7 +52,7 @@ export function PollAnsweredNormal(props) {
           <View style={{flexDirection: 'row', backgroundColor: 'transparent', marginBottom: 5, justifyContent: 'space-between'}}>
             <View style={{height: 15, width: 15, backgroundColor: green, borderRadius: 50}}></View>
             <Text style={{fontFamily: 'hn-bold', fontSize: 18, marginLeft: 10, marginRight: 10}}>{item.title}</Text>
-            <View></View>
+            <TouchableOpacity onPress={() => {editPoll(item.id)}}><Image source={require('../assets/images/additions/Pencil.png')} /></TouchableOpacity>
           </View>
 
           <View style={{backgroundColor: 'transparent', flex: 1, flexDirection: 'row', flexWrap: 'wrap', alignItems: 'flex-start'}}>
