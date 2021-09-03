@@ -12,7 +12,7 @@ import { blue1, blue2, blue3, blue4, green, red, gray, white, darkgray } from '.
 import Toast from 'react-native-root-toast';
 
 export default function CreatePoll({ navigation: { navigate }, route }) {
-  const { names, multis, choicess, messages, editings } = route.params;
+  const { names, multis, choicess, messages, editings, exists, id } = route.params;
   const [name, setName] = useState(names);
   const [multi, setMulti] = useState(multis);
   const [choices, setChoices] = useState(choicess);
@@ -76,10 +76,15 @@ export default function CreatePoll({ navigation: { navigate }, route }) {
         responseEdit: editing,
         publish: true
       };
+      var idd = "";
 
-      var doc = await pollsRef.set(data);
-      data["id"] = doc.id;
-      await pollsRef.doc(doc.id).set(data).then(async function () {
+      if (!exists) {
+        var doc = await pollsRef.add(data);
+        idd = doc.id;
+      } else { idd = id; }
+      data["id"] = idd;
+
+      await pollsRef.doc(idd).set(data).then(async function () {
           var userunparsed = await storage.getItem('user');
           var user = JSON.parse(userunparsed);
           user.polls.push(data.id);

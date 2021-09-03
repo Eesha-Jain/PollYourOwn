@@ -28,7 +28,9 @@ export default function TabThreeScreen({ navigation: { navigate }}) {
       multis: false,
       choicess: [""],
       messages: "",
-      editings: false
+      editings: false,
+      exists: false,
+      id: ""
     });
   }
 

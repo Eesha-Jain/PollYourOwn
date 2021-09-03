@@ -26,7 +26,9 @@ export function PollAnsweredNormal(props) {
             multis: entity.multiResponses,
             choicess: entity.choices,
             messages: "",
-            editings: entity.responseEdit
+            editings: entity.responseEdit,
+            exists: true,
+            id: entity.id
           });
         }
       });
