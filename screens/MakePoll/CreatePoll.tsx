@@ -12,7 +12,7 @@ import { blue1, blue2, blue3, blue4, green, red, gray, white, darkgray } from '.
 import Toast from 'react-native-root-toast';
 
 export default function CreatePoll({ navigation: { navigate }, route }) {
-  const { names, multis, choicess, messages, editings, exists, id } = route.params;
+  const { names, multis, choicess, responsess, messages, editings, exists, id } = route.params;
   const [name, setName] = useState(names);
   const [multi, setMulti] = useState(multis);
   const [choices, setChoices] = useState(choicess);
@@ -64,7 +64,11 @@ export default function CreatePoll({ navigation: { navigate }, route }) {
           setMessage("Please fill out all choices");
           return;
         }
-        responses.push(0);
+
+        if (choicess.includes(choices[i])) {
+          var index = choicess.indexOf(choices[i]);
+          responses.push(responsess[index]);
+        } else { responses.push(0); }
       }
 
       const pollsRef = firebase.firestore().collection('polls');

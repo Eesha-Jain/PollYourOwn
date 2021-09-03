@@ -12,6 +12,7 @@ import { blue1, blue2, blue3, blue4, green, red, gray, white, darkgray, list } f
 import { PieChart } from 'react-native-chart-kit';
 import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
 import {PollAnsweredNormal, PollAnswered} from '../../util/PollAnswered';
+import { useIsFocused } from "@react-navigation/native";
 
 export default function TabThreeScreen({ navigation: { navigate }}) {
   let [polls, setPolls] = useState([]);
@@ -21,12 +22,14 @@ export default function TabThreeScreen({ navigation: { navigate }}) {
   const [number, setNumber] = useState(5);
   const [loaded, setLoaded] = useState(false);
   const [normal, setNormal] = useState(<View></View>);
+  const isFocused = useIsFocused();
 
   function navigation() {
     navigate("Create Poll", {
       names: "",
       multis: false,
       choicess: [""],
+      responsess: [0],
       messages: "",
       editings: false,
       exists: false,
@@ -99,7 +102,7 @@ export default function TabThreeScreen({ navigation: { navigate }}) {
       });
     }
     makeRequest();
-  }, [loaded, normal]);
+  }, [loaded, normal, isFocused]);
 
   return (
     <View>

@@ -25,6 +25,7 @@ export function PollAnsweredNormal(props) {
             names: entity.title,
             multis: entity.multiResponses,
             choicess: entity.choices,
+            responsess: entity.responses,
             messages: "",
             editings: entity.responseEdit,
             exists: true,
