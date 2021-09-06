@@ -81,22 +81,23 @@ export default function CreatePoll({ navigation: { navigate }, route }) {
         publish: true
       };
       var idd = "";
+      var message = "Successfully Created Poll";
 
       if (!exists) {
         var doc = await pollsRef.add(data);
         idd = doc.id;
-      } else { idd = id; }
+      } else { idd = id; message = "Successfully Edited Poll"; }
       data["id"] = idd;
 
       await pollsRef.doc(idd).set(data).then(async function () {
           var userunparsed = await storage.getItem('user');
           var user = JSON.parse(userunparsed);
-          user.polls.push(data.id);
+          if (!exists) {user.polls.push(data.id)};
 
           await firebase.firestore().collection('users').doc(user.id).set(user);
           await storage.setItem('user', JSON.stringify(user));
 
-          let toast = Toast.show('Successfully Created Poll', {
+          let toast = Toast.show(message, {
             duration: Toast.durations.SHORT,
             position: Toast.positions.BOTTOM,
             shadow: false,

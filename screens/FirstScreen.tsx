@@ -42,8 +42,8 @@ const styles = StyleSheet.create({
     fontFamily: 'hn-bold'
   },
   topImage: {
-    width: win.width * 0.95,
-    height: win.width * 0.95 * (594 / 678),
+    width: win.width * 0.8,
+    height: win.width * 0.8 * (594 / 678),
     marginBottom: 20
   },
   pitch: {
