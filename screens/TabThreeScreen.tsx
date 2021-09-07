@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Image, AsyncStorage, StyleSheet, Dimensions, TouchableOpacity, ScrollView } from 'react-native';
+import { Image, AsyncStorage, StyleSheet, Dimensions, TouchableOpacity, ScrollView, Button } from 'react-native';
 import {useState, useEffect} from 'react';
 import { Entypo } from '@expo/vector-icons';
 const win = Dimensions.get('window');
@@ -15,7 +15,7 @@ const MiniStack = createStackNavigator();
 import Normal from './MakePoll/Normal';
 import CreatePoll from './MakePoll/CreatePoll';
 
-export default function TabThreeScreen() {
+export default function TabThreeScreen({navigation: {navigate}}) {
   return (
     <MiniStack.Navigator initialRouteName="Back">
       <MiniStack.Screen
@@ -27,6 +27,18 @@ export default function TabThreeScreen() {
         name="Create Poll"
         options={{headerShown:true}}
         component={CreatePoll}
+        options={{
+          title: "Create & Edit a Poll",
+          headerLeft: () => (
+            <Button
+              onPress={() => {
+                navigate("Back", {refreshpara: false});
+              }}
+              title="< Back"
+              color="#299bff"
+            />
+          ),
+        }}
       />
     </MiniStack.Navigator>
   );

@@ -14,7 +14,7 @@ import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-ta
 import {PollAnsweredNormal, PollAnswered} from '../../util/PollAnswered';
 import { useIsFocused } from "@react-navigation/native";
 
-export default function TabThreeScreen({ navigation: { navigate }}) {
+export default function TabThreeScreen({ navigation: { navigate }, refreshpara}) {
   let [polls, setPolls] = useState([]);
   let [dic, setDic] = useState({});
   const [blackBack, setBlackBack] = useState({});
@@ -23,6 +23,7 @@ export default function TabThreeScreen({ navigation: { navigate }}) {
   const [loaded, setLoaded] = useState(false);
   const [normal, setNormal] = useState(<View></View>);
   const isFocused = useIsFocused();
+  var refresh = refreshpara || false;
 
   function navigation() {
     navigate("Create Poll", {
@@ -37,72 +38,76 @@ export default function TabThreeScreen({ navigation: { navigate }}) {
     });
   }
 
-  useEffect(() => {
-    const makeRequest = async () => {
-      const userUnparsed = await storage.getItem('user');
-      const user = JSON.parse(userUnparsed);
+  const makeRequest = async () => {
+    const userUnparsed = await storage.getItem('user');
+    const user = JSON.parse(userUnparsed);
 
-      await firebase.firestore().collection('users').doc(user.id).get().then(async function (doc) {
-        const entity = doc.data();
+    await firebase.firestore().collection('users').doc(user.id).get().then(async function (doc) {
+      const entity = doc.data();
 
-        if (entity.pollsAnswered.length < 5) {
-          setBlackBack({
-            ...StyleSheet.absoluteFillObject,
-            backgroundColor: 'rgba(0, 0, 0, 0.6)',
-            alignItems: 'center',
-            justifyContent: 'center',
-            height: win.height
+      if (entity.pollsAnswered.length < 5) {
+        setBlackBack({
+          ...StyleSheet.absoluteFillObject,
+          backgroundColor: 'rgba(0, 0, 0, 0.6)',
+          alignItems: 'center',
+          justifyContent: 'center',
+          height: win.height
+        });
+        setNumber(5 - entity.pollsAnswered.length);
+      } else {
+        setDisplay("flex");
+        setBlackBack({
+          display: "none"
+        })
+      }
+
+      if (entity.polls.length == 0) {
+        setDisplay("flex");
+      } else {
+        setDisplay("none");
+        let pollsAnswered = entity.polls;
+        setPolls([]);
+        setDic({});
+
+        for (var i = 0; i < pollsAnswered.length; i++) {
+          await firebase.firestore().collection('polls').where("id", "==", pollsAnswered[i]).get().then((querySnapshot) => {
+            querySnapshot.forEach((poll) => {
+              var item = poll.data();
+              polls.push(item);
+
+              let arr = [];
+              var count = 0;
+              for (var i = 0; i < item.choices.length; i++) { count += item.responses[i]; }
+              for (var i = 0; i < item.choices.length; i++) { arr[i] = ((item.responses[i] * 100) / (count)).toFixed(0); }
+
+              let pollData = [];
+              for (var i = 0; i < item.choices.length; i++) {
+                let d = {
+                  name: item.choices[i],
+                  population: item.responses[i],
+                  color: list[i],
+                  legendFontColor: '#7F7F7F',
+                  legendFontSize: 15
+                };
+                pollData.push(d);
+              }
+
+              dic[item.title] = [arr, pollData];
+            })
           });
-          setNumber(5 - entity.pollsAnswered.length);
-        } else {
-          setDisplay("flex");
-          setBlackBack({
-            display: "none"
-          })
         }
 
-        if (entity.polls.length == 0) {
-          setDisplay("flex");
-        } else {
-          setDisplay("none");
-          let pollsAnswered = entity.polls;
-          setPolls([]);
-          setDic({});
+        if (!loaded) {setLoaded(true); setNormal(<PollAnsweredNormal key={0} polls={polls} dic={dic} navigate={navigate} />);}
+      }
+    });
+  }
 
-          for (var i = 0; i < pollsAnswered.length; i++) {
-            await firebase.firestore().collection('polls').where("id", "==", pollsAnswered[i]).get().then((querySnapshot) => {
-              querySnapshot.forEach((poll) => {
-                var item = poll.data();
-                polls.push(item);
-
-                let arr = [];
-                var count = 0;
-                for (var i = 0; i < item.choices.length; i++) { count += item.responses[i]; }
-                for (var i = 0; i < item.choices.length; i++) { arr[i] = ((item.responses[i] * 100) / (count)).toFixed(0); }
-
-                let pollData = [];
-                for (var i = 0; i < item.choices.length; i++) {
-                  let d = {
-                    name: item.choices[i],
-                    population: item.responses[i],
-                    color: list[i],
-                    legendFontColor: '#7F7F7F',
-                    legendFontSize: 15
-                  };
-                  pollData.push(d);
-                }
-
-                dic[item.title] = [arr, pollData];
-              })
-            });
-          }
-
-          if (!loaded) {setLoaded(true); setNormal(<PollAnsweredNormal key={0} polls={polls} dic={dic} navigate={navigate} />);}
-        }
-      });
-    }
-    makeRequest();
-  }, [loaded, normal, isFocused]);
+  useEffect(() => {
+    if (!refresh) {
+      makeRequest();
+      refresh = true;
+    };
+  }, [loaded, normal, isFocused, refresh]);
 
   return (
     <View>

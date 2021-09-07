@@ -108,7 +108,7 @@ export default function CreatePoll({ navigation: { navigate }, route }) {
             opacity: 0.5
           });
 
-          navigate("Back");
+          navigate("Back", {refreshpara: false});
       }).catch((error) => {
           setMessage("ERROR: " + error.message);
       });
