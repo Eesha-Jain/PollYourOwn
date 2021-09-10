@@ -11,6 +11,7 @@ Collection: user
   firsttime: Boolean,
   polls: Integer [] (ids of polls),
   skip: Integer[] (ids of polls),
+  excused: Integer [] (ids of polls),
   pollsAnswered: Integer [] (ids of polls)
 }
 

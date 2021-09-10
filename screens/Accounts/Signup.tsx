@@ -45,7 +45,8 @@ export default function Login({ navigation: { navigate } }) {
             firsttime: true,
             polls: [],
             skip: [],
-            pollsAnswered: []
+            pollsAnswered: [],
+            excused: []
           };
 
           const usersRef = firebase.firestore().collection('users');

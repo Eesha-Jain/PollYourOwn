@@ -9,16 +9,19 @@ import storage from "@react-native-async-storage/async-storage";
 import { firebase } from '../util/firebaseInit.js';
 import sharedStyles from '../styles/SharedStyles.ts';
 import { blue1, blue2, blue3, blue4, green, red, gray, white, list } from '../util/colors.ts';
+import { useIsFocused } from "@react-navigation/native";
 
 export default function TabOneScreen({ navigation: { navigate } }) {
   const [validPolls, setValidPolls] = useState([]);
   const mountedRef = useRef(false);
+  const isFocused = useIsFocused();
+
   useEffect(() => {
     mountedRef.current = true
     return () => {
       mountedRef.current = false
     }
-  }, [])
+  }, [isFocused])
 
   useEffect(() => {
     const makeRequest = async () => {
@@ -35,7 +38,7 @@ export default function TabOneScreen({ navigation: { navigate } }) {
           let polls = [];
           querySnapshot.forEach((doc) => {
             const entity = doc.data();
-            if (user["pollsAnswered"].indexOf(entity.id) == -1 && user["polls"].indexOf(entity.id) == -1 && entity.publish == true && user["skip"].indexOf(entity.id) == -1) {
+            if (user["excused"].indexOf(entity.id) != -1 || (user["pollsAnswered"].indexOf(entity.id) == -1 && user["polls"].indexOf(entity.id) == -1 && entity.publish == true && user["skip"].indexOf(entity.id) == -1)) {
               polls.push(entity);
             }
           });
@@ -54,7 +57,9 @@ export default function TabOneScreen({ navigation: { navigate } }) {
       querySnapshot.forEach((doc) => {
         let entity = doc.data();
         entity.responses[choiceIndex] += 1;
-        user.pollsAnswered.push(pollId);
+        if (user.pollsAnswered.indexOf(pollId) == -1) { user.pollsAnswered.push(pollId); }
+        else {user.excused.splice(user.excused.indexOf(pollId), 1); }
+
         doc.ref.update(entity);
       })
     });
@@ -68,7 +73,8 @@ export default function TabOneScreen({ navigation: { navigate } }) {
     const userUnparsed = await storage.getItem('user');
     let user = JSON.parse(userUnparsed);
 
-    user.skip.push(pollId);
+    if (user.pollsAnswered.indexOf(pollId) == -1) {user.skip.push(pollId);}
+    else {user.excused.splice(user.excused.indexOf(pollId), 1); }
 
     await firebase.firestore().collection('users').doc(user.id).set(user).then(async () => {
       await storage.setItem('user', JSON.stringify(user));

@@ -93,6 +93,16 @@ export function PollAnswered(props) {
   const polls = props.polls;
   const dic = props.dic;
 
+  async function deleteFunc(id) {
+      const userUnparsed = await storage.getItem('user');
+      let user = JSON.parse(userUnparsed);
+      if (user.pollsAnswered.indexOf(id) != -1) { return; }
+
+      user.excused.push(id);
+      await firebase.firestore().collection('users').doc(user.id).update(user);
+      await storage.setItem('user', JSON.stringify(user));
+  }
+
   return (
     <View style={{width: win.width, padding: 20}}>
     {polls.map((item) => {
@@ -107,7 +117,7 @@ export function PollAnswered(props) {
           <View style={{flexDirection: 'row', backgroundColor: 'transparent', marginBottom: 5, justifyContent: 'space-between'}}>
             <View style={{height: 15, width: 15, backgroundColor: green, borderRadius: 50}}></View>
             <Text style={{fontFamily: 'hn-bold', fontSize: 18, marginLeft: 10, marginRight: 10}}>{item.title}</Text>
-            <View></View>
+            {item.multiResponses ? <TouchableOpacity onPress={() => {deleteFunc(item.id)}}><Image source={require('../assets/images/additions/copy.png')} /></TouchableOpacity> : <View></View>}
           </View>
 
           <View style={{backgroundColor: 'transparent', flex: 1, flexDirection: 'row', flexWrap: 'wrap', alignItems: 'flex-start'}}>
